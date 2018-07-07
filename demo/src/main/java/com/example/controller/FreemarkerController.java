@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.pojo.Resource;
 
 @Controller
-@RequestMapping(value="ftl")
+@RequestMapping("ftl")
 public class FreemarkerController {
 	
 	@Autowired
 	private Resource resource;
 	
-	@RequestMapping(value="/index")
+	@RequestMapping("/index")
 	public String index(ModelMap map){
 		map.addAttribute("resource", resource);
 		return "freemarker/index";
 	}
 	
-	@RequestMapping(value="center")
+	@RequestMapping("center")
 	public String center(){
 		return "freemarker/center/center";
 	}
