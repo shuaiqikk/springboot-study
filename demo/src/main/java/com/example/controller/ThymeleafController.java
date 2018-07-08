@@ -26,14 +26,14 @@ public class ThymeleafController {
 		return "thymeleaf/center/center";
 	}
 	
-	@RequestMapping(value="test")
+	@RequestMapping(value="testfile")
 	public String test(ModelMap map) {
 		User u = new User();
-		u.setName("admin");
+		u.setName("superadmin");
 		u.setAge(20);
 		u.setPassword("123456");
 		u.setBirthday(new Date());
-		u.setDesc("<font color='green'><b>hello example</b></font>");
+		u.setDesc("<font color='green'><b>hello superadmin</b></font>");
 		
 		map.addAttribute("user", u);
 		
@@ -56,21 +56,21 @@ public class ThymeleafController {
 		
 		map.addAttribute("userList", userList);
 		
-		return "thymeleaf/test";
+		return "thymeleaf/testfile";
 	}
 	
 	@PostMapping("postform")
 	public String postform(User u) {
-		System.out.println("姓名" + u.getName());
-		System.out.println("年龄" + u.getAge());
+		System.out.println("姓名: " + u.getName());
+		System.out.println("年龄: " + u.getAge());
 		
-		return "redirect:/th/test";
+		return "redirect:/th/testfile";
 	}
 	
 	@RequestMapping("showerror")
 	public String showerror(User u) {
 		int a = 1 / 0;
-		return "redirect:/th/test";
+		return "redirect:/th/testfile";
 		
 	}
 }

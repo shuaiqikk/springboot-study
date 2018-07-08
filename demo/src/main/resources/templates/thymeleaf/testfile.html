@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>test thymeleaf</title>
+		<!-- <script th:src="@{/static/js/test.js}"></script> -->
+	</head>
+	<body>
+		<!-- 方式一：可直接通过$(user.属性)的方式拿值 -->
+		<div>
+			username:<input th:id="${user.name}" th:name="${user.name}" th:value="${user.name}"/><br/>
+			userage :<input th:value="${user.age}"/><br/>
+			userbirthday:<input th:value="${user.birthday}"/><br/>
+			<p>another style to show birthday</p>
+			userbirth:<input th:value="${#dates.format(user.birthday,'yyyy-MM-dd')}"/><br/>
+		</div><br/>
+		
+		<!-- 方式二：先拿到user对象，然后通过(*{属性})的方式拿值 -->
+		<div th:object="${user}">
+			username:<input th:id="*{name}" th:name="*{name}" th:value="*{name}"/><br/>
+			userage :<input th:value="*{age}"/><br/>
+			userbirth:<input th:value="*{#dates.format(birthday,'yyyy-MM-dd')}"/><br/>
+		</div><br/><br/>
+		
+		text与utext的区别：<br/>
+		<span th:text="${user.desc}">abc</span><br/>
+		<span th:utext="${user.desc}">abc</span><br/><br/>
+		
+		<!-- URL表示 -->
+		URL:<br/>
+		<a href="http://localhost:8088/demo/th/testfile" >website</a><br/>
+		<a th:href="@{http://localhost:8088/demo/th/testfile}"/>网站地址</a><br/><br/>
+		
+		<!-- 表单提交  th:method或者method均可 -->
+		<form th:action="@{/th/postform}" th:object="${user}"  method="post" th:method="post">
+			<input type="text" th:field="*{name}"/><br/>
+			<input type="text" th:field="*{age}"/><br/>
+			<input type="submit" />
+		</form><br/><br/>
+		
+		<!-- th:if判断 --><br/>
+		<div th:if="${user.age} == 18">你18岁了</div><br/>
+		<div th:if="${user.age} gt 18">you are old</div><br/>
+		<div th:if="${user.age} lt 18">you are so young</div><br/>
+		<div th:if="${user.age} ge 18">you are a little bit old</div><br/>
+		<div th:if="${user.age} le 18">you are a little bit young</div><br/><br/>
+		
+		<!-- 选择框 --><br/>
+		<select>
+			<option>select window</option>
+			<option th:selected="${user.name eq 'example'}">普通用户example</option><br/>
+			<option th:selected="${user.name eq 'admin'}">普通管理员</option>
+			<option th:selected="${user.name eq 'superadmin'}">超级管理员</option><br/>
+			<option th:selected="${user.name eq 'demo'}">普通用户demo</option><br/><br/>
+		</select><br/>
+		
+		<!-- 表格显示集合数据 --><br/>
+		<table>
+			<tr>
+				<th>姓名</th>
+				<th>年龄</th>
+				<th>生日</th>
+				<th>年龄范围</th>
+				<th>备注</th>
+			</tr>
+			<tr th:each="person:${userList}">
+				<td th:text="${person.name}"></td>
+				<td th:text="${person.age}"></td>
+				<td th:text="${#dates.format(person.birthday,'yyyy-MM-dd')}"></td>
+				<td th:text="${person.age gt 18} ? 'you are old' : 'you are young'"></td><!-- 记得字符串的值要用单引号引起来 -->
+				<td th:utext="${person.desc}"></td>
+			</tr>
+		</table><br/>
+		
+		<!-- switch and case --><br/>
+		<div th:switch="${user.name}">
+			<p th:case="#{roles.manager}">普通管理员</p>
+			<p th:case="#{roles.superadmin}">超级管理员</p>
+			<p th:case="*">其他用户</p>
+		</div>
+	</body>
+</html>
